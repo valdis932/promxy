@@ -49,6 +49,7 @@ import (
 	"github.com/prometheus/prometheus/web"
 	"github.com/sirupsen/logrus"
 
+	"github.com/jacksontj/promxy/pkg/authmiddleware"
 	proxyconfig "github.com/jacksontj/promxy/pkg/config"
 	"github.com/jacksontj/promxy/pkg/logging"
 	"github.com/jacksontj/promxy/pkg/proxystorage"
@@ -433,7 +434,7 @@ func main() {
 
 	srv := &http.Server{
 		Addr:        opts.BindAddr,
-		Handler:     handler,
+		Handler:     authmiddleware.AuthMiddleware(handler),
 		ReadTimeout: opts.WebReadTimeout,
 	}
 
